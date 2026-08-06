@@ -9,15 +9,21 @@
 
 - **財務**: 開業資金、融資制度、機器リース、診療報酬、損益分岐点、補助金
 - **立地**: 診療圏調査、人口動態、競合医院の分布、賃料相場、テナント条件
+- **法令・手続き・人事**: 届出と許認可、医療広告ガイドライン、施設基準、労務
 
 ## 2. 完璧な業務日
 
-| 時刻 (JST) | 内容 |
-| --- | --- |
-| 08:00 | 開業に関する**財務的な情報**を集めてまとめる → `reports/finance/YYYY-MM-DD.md` |
-| 13:00 | 開業に関する**立地的な情報**を集めてまとめる → `reports/location/YYYY-MM-DD.md` |
+| 時刻 (JST) | 頻度 | 内容 |
+| --- | --- | --- |
+| 08:00 | 毎日 | 開業に関する**財務的な情報**を集めてまとめる → `reports/finance/YYYY-MM-DD.md` |
+| 13:00 | 毎日 | 開業に関する**立地的な情報**を集めてまとめる → `reports/location/YYYY-MM-DD.md` |
+| 月 17:00 | 週次 | **法令・手続き・人事**の変更を追う → `reports/regulatory/YYYY-MM-DD.md` |
 
-実行手順は `prompts/morning-finance.md` と `prompts/afternoon-location.md` を参照。
+実行手順は `prompts/` 配下（`morning-finance.md` / `afternoon-location.md` /
+`regulatory.md`）を参照。法令は日単位で動かないため、第3トラックのみ週次。
+
+開業前に潰すべき論点の全体像は `docs/pre-opening-checklist.md` にまとめてある。
+週次トラックはこのチェックリストを更新し続ける。
 
 ## 3. 自律判断できる範囲
 
