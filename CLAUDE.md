@@ -13,14 +13,17 @@
 
 ## 2. 完璧な業務日
 
-| 時刻 (JST) | 頻度 | 内容 |
-| --- | --- | --- |
-| 08:00 | 毎日 | 開業に関する**財務的な情報**を集めてまとめる → `reports/finance/YYYY-MM-DD.md` |
-| 13:00 | 毎日 | 開業に関する**立地的な情報**を集めてまとめる → `reports/location/YYYY-MM-DD.md` |
-| 月 17:00 | 週次 | **法令・手続き・人事**の変更を追う → `reports/regulatory/YYYY-MM-DD.md` |
+3トラックとも**週次**。日次だと同じ情報を拾い直すだけになり、
+レポートの密度が落ちるため。
 
-実行手順は `prompts/` 配下（`morning-finance.md` / `afternoon-location.md` /
-`regulatory.md`）を参照。法令は日単位で動かないため、第3トラックのみ週次。
+| 曜日・時刻 (JST) | 内容 |
+| --- | --- |
+| 月 17:00 | **法令・手続き・人事**の変更を追う → `reports/regulatory/YYYY-MM-DD.md` |
+| 火 08:00 | 開業に関する**財務的な情報**を集めてまとめる → `reports/finance/YYYY-MM-DD.md` |
+| 木 13:00 | 開業に関する**立地的な情報**を集めてまとめる → `reports/location/YYYY-MM-DD.md` |
+
+実行手順は `prompts/` 配下（`regulatory.md` / `weekly-finance.md` /
+`weekly-location.md`）を参照。
 
 開業前に潰すべき論点の全体像は `docs/pre-opening-checklist.md` にまとめてある。
 週次トラックはこのチェックリストを更新し続ける。

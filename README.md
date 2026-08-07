@@ -4,11 +4,11 @@
 
 | トラック | 実行 (JST) | 出力先 |
 | --- | --- | --- |
-| 財務 | 毎日 08:00 | `reports/finance/` |
-| 立地 | 毎日 13:00 | `reports/location/` |
 | 法令・手続き・人事 | 毎週月曜 17:00 | `reports/regulatory/` |
+| 財務 | 毎週火曜 08:00 | `reports/finance/` |
+| 立地 | 毎週木曜 13:00 | `reports/location/` |
 
 - `CLAUDE.md` — 役割定義（担当業務 / 自律範囲 / エスカレーション基準 / 良い仕事の定義）
 - `docs/pre-opening-checklist.md` — 開業前チェックリスト（法令・人事・保険診療・リスク）
 - `prompts/` — 各トラックの実行手順書
-- `reports/` — 日次・週次レポートの蓄積先
+- `reports/` — 週次レポートの蓄積先
