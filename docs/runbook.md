@@ -52,14 +52,31 @@ Routine が新しいセッションを立てる方式（`create_new_session_on_f
 
 ## 既知の制約2: 一部サイトに直接アクセスできない
 
-実行環境のネットワーク制限により、以下は `WebFetch` でブロックされる
-（`EGRESS_BLOCKED`）。
+実行環境のネットワーク制限により、`WebFetch` は `EGRESS_BLOCKED` になる。
+
+**当初は以下の2ドメインのみと記録していた。**
 
 - `www.jfc.go.jp`（日本政策金融公庫）
 - `www.mhlw.go.jp`（厚生労働省）
 
-Web検索そのものは通るため、**検索結果から一次情報の内容を拾うことはできるが、
-官公庁ページを直接開いて原文を確認することはできない**。
+**しかし 2026-08-07 の立地トラック初回実行では、`WebFetch` が全面的に
+ブロックされた。** 実測でブロックを確認したドメイン:
+
+`www.e-stat.go.jp` / `www.niph.go.jp` / `www.city.saitama.lg.jp` /
+`www.pref.saitama.lg.jp` / `www.stat.go.jp` / `nlab.itmedia.co.jp` /
+`grading.jpn.org` / `queria.io` / `www.mic.jp` / `ja.wikipedia.org` /
+`suumo.jp` / `www.homes.co.jp`
+
+`curl` も同様に不通（全て接続不可）。**ブロック対象は特定ドメインではなく、
+実質すべての外部サイトと考えたほうがよい。**
+
+Web検索（`WebSearch`）そのものは通る。したがって**検索結果の要約から
+情報を拾うことはできるが、ページを開いて原文を確認することはできない**。
+
+### 実行時にまず確認すること
+
+調査を始める前に `WebFetch` を1回試し、通るかどうかを確かめる。
+通らない場合は、レポートの記載を**全て二次情報として扱う**。
 
 ### 対処
 
