@@ -71,12 +71,33 @@ Routine が新しいセッションを立てる方式（`create_new_session_on_f
 | `elaws.e-gov.go.jp`（e-Gov 法令検索） | 301 で `laws.e-gov.go.jp` へ転送。転送先で取得成功 |
 | `www.stat.go.jp`（総務省統計局） | 取得成功 |
 | `www.city.saitama.lg.jp`（さいたま市） | 取得成功 |
-| `www.city.kita.tokyo.jp`（東京都北区） | **`EGRESS_BLOCKED`** |
+| `www.city.kita.tokyo.jp`（東京都北区） | **`EGRESS_BLOCKED`**（`*.tokyo.jp` 追加前。後述のとおり解消） |
 
 つまり **2026-08-07 に「ブロック」と記録したドメインの多くは、現在は通る**。
-一方で **許可は全ドメインには及んでおらず、個別に落ちるものがある**
-（実測で確認できた例が北区）。未確認のドメインが通るかどうかは、
-実行時に試すまでわからない。
+一方で **許可は全ドメインには及んでおらず、個別に落ちるものがある**。
+未確認のドメインが通るかどうかは、実行時に試すまでわからない。
+
+### 再実測（2026-08-09、許可ドメインに `*.tokyo.jp` を追加した後）
+
+立地トラックの次回対象（東京23区北部）のドメインを実測した。
+**北区の `EGRESS_BLOCKED` は解消**している。
+
+| URL | 結果 |
+| --- | --- |
+| `https://www.city.kita.tokyo.jp/` | 301 で `https://www.city.kita.lg.jp/` へ転送。**転送先を指定し直して取得成功**。`EGRESS_BLOCKED` は出ない |
+| `https://www.city.itabashi.tokyo.jp/`（板橋区） | 取得成功 |
+| `https://www.city.adachi.tokyo.jp/`（足立区） | 取得成功 |
+| `https://www.city.arakawa.tokyo.jp/`（荒川区） | **HTTP 503 Service Unavailable**。`/index.html` でも再現。`EGRESS_BLOCKED` ではなく、リクエスト自体は到達している |
+| `https://www.city.toshima.lg.jp/`（豊島区） | 取得成功 |
+| `https://www.metro.tokyo.lg.jp/`（東京都） | 取得成功 |
+
+**北区は現ドメイン `www.city.kita.lg.jp` へ移行済み**。
+`*.tokyo.jp` の追加で旧ドメインへの到達自体は通るようになったが、
+転送先は `.lg.jp` なので、**最初から `https://www.city.kita.lg.jp/` を叩くのが速い**。
+
+荒川区の 503 は egress の遮断とは切り分けられている。ただし
+**原因（サイト側の一時障害か、ボット避けの応答か）は未確認**。
+立地トラック実行時に再度試し、なお 503 なら二次情報として扱う。
 
 `elaws.e-gov.go.jp` は現在 `laws.e-gov.go.jp` へのリダイレクトになっている。
 `WebFetch` はホストをまたぐリダイレクトを自動で追わないため、
@@ -96,8 +117,10 @@ Web検索（`WebSearch`）は従来どおり通る。
 - 融資条件・施設基準・届出要件など、外すと損害が出る項目は
   「窓口で要確認」を必ず添える
 - 個別にブロックされるドメインが残っているため、必要なドメインが落ちた場合は
-  claude.ai の環境設定で許可ドメインを追加する（2026-08-09 時点で
-  北区サイトは未許可）
+  claude.ai の環境設定で許可ドメインを追加する。
+  **`*.tokyo.jp` は 2026-08-09 に追加済み**（北区の `EGRESS_BLOCKED` はこれで解消）
+- `EGRESS_BLOCKED` と HTTP エラー（503 など）を混同しない。
+  **前者は環境の許可ドメイン設定の問題、後者はサイト側の応答**で、打つ手が違う
 
 ## トラブル時の切り分け手順
 
